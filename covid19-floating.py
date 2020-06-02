@@ -4,20 +4,20 @@ Created on Tue May 26 22:03:45 2020
 
 @author: user
 """
-
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
 # 1월 ~ 5월 유동인구 구하기
 # 일별 지하철 승차 승객
-
-path = "/dataset/"
+print(os.getcwd())
+path = "dataset/"
 
 floating_01 = pd.read_csv(path + 'CARD_SUBWAY_MONTH_202001.csv', encoding = 'cp949')
 floating_02 = pd.read_csv(path + 'CARD_SUBWAY_MONTH_202002.csv')
 floating_03 = pd.read_csv(path + 'CARD_SUBWAY_MONTH_202003.csv')
-floating_04 = pd.read_csv(path +'CARD_SUBWAY_MONTH_202004.csv')
+floating_04 = pd.read_csv(path + 'CARD_SUBWAY_MONTH_202004.csv')
 
 subway_01 = floating_01.groupby('사용일자')['승차총승객수'].sum()
 subway_02 = floating_02.groupby('사용일자')['승차총승객수'].sum()
@@ -34,7 +34,7 @@ seoul_floating = pd.concat([subway_01, subway_02, subway_03, subway_04]).reset_i
 seoul_floating['사용일자'] = seoul_floating['사용일자'].apply(lambda x: pd.to_datetime(str(x),format='%Y%m%d'))
 
 plt.rc('font', family ='Malgun Gothic')
-plt.figure(figsize=(15,5))
+plt.figure(figsize=(20,5))
 plt.title('1월부터 4월까지 일별 지하철 이용 승객수')
 plt.plot_date(seoul_floating['사용일자'], seoul_floating['승차총승객수'], fmt='c*-', label='승차 총 승객수')
 plt.xticks(seoul_floating['사용일자'][0::5])
